@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import helloRouter from './router/hello.router';
+import scoreRouter from './router/score.router';
 
 export class Server {
   public app: express.Application;
@@ -18,6 +18,6 @@ export class Server {
   }
 
   private routes(): void {
-    this.app.use('/', helloRouter);
+    this.app.use('/score', scoreRouter);
   }
 }
