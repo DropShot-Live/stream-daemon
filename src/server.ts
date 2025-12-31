@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 import scoreRouter from './router/score.router';
+import { generateOpenApiDocs } from './config/swagger';
 
 export class Server {
   public app: express.Application;
@@ -9,6 +11,7 @@ export class Server {
     this.app = express();
     this.config();
     this.routes();
+    this.swagger();
   }
 
   private config(): void {
@@ -19,5 +22,10 @@ export class Server {
 
   private routes(): void {
     this.app.use('/score', scoreRouter);
+  }
+
+  private swagger(): void {
+    const docs = generateOpenApiDocs();
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(docs));
   }
 }
