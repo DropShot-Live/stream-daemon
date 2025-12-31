@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/stream-daemon.png" width="180" />
+</p>
+
 # Stream Daemon
 
 A minimal, production-ready local edge daemon for Stream operations. It runs on a Linux machine, exposes a small HTTP API, runs background cron jobs, validates inputs, and can send data to a remote server.
