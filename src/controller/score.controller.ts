@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ScoreService } from '../service/score.service';
-import { ScoreSchema } from '../validation/score.schema';
+import { CreateScoreSchema, UpdateScoreSchema } from '../validation/score.schema';
 
 export class ScoreController {
   private scoreService: ScoreService;
@@ -9,10 +9,38 @@ export class ScoreController {
     this.scoreService = new ScoreService();
   }
 
-  public postScore = (req: Request, res: Response): void => {
-    // The middleware has already validated the body is compatible with ScoreSchema
-    const scoreData: ScoreSchema = req.body;
-    const result = this.scoreService.processScore(scoreData);
-    res.json(result);
+  /**
+   * POST /score - Create a new score record
+   */
+  public createScore = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const scoreData: CreateScoreSchema = req.body;
+      const result = await this.scoreService.createScore(scoreData);
+      res.status(201).json(result);
+    } catch (error: any) {
+      console.error('Error in createScore controller:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to create score',
+      });
+    }
+  };
+
+  /**
+   * PUT /score - Update an existing score record
+   */
+  public updateScore = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const scoreData: UpdateScoreSchema = req.body;
+      const result = await this.scoreService.updateScore(scoreData);
+      res.status(200).json(result);
+    } catch (error: any) {
+      console.error('Error in updateScore controller:', error);
+      res.status(500).json({
+        success: false,
+        message: error.message || 'Failed to update score',
+      });
+    }
   };
 }
+

@@ -1,6 +1,6 @@
 import { z, ZodSchema } from 'zod';
 import { OpenAPIRegistry, OpenApiGeneratorV3, extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
-import { scoreSchema } from '../validation/score.schema';
+import { createScoreSchema, updateScoreSchema } from '../validation/score.schema';
 import { successMessageResponse } from '../validation/generic.schema';
 
 extendZodWithOpenApi(z); // must pass zod instance
@@ -23,7 +23,8 @@ interface RouteDefinition {
   summary?: string;
 }
 const routes: RouteDefinition[] = [
-  { method: 'post', path: '/score', request: { body: scoreSchema }, response: successMessageResponse }
+  { method: 'post', path: '/score', request: { body: createScoreSchema }, response: successMessageResponse, summary: 'Create a new score record' },
+  { method: 'put', path: '/score', request: { body: updateScoreSchema }, response: successMessageResponse, summary: 'Update an existing score record' }
 ];
 
 /**
